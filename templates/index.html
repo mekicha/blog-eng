@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+
+{%block content %}
+{% for post in posts %}
+{{post.title}}
+{{post.created_at}}
+{{post.body}}
+{ % endfor % }
+ {% endblock %}
+
+
