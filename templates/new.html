@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post" action="url_for('newpost')">
+<div class="post">
+<h2>Publish a new post!</h2>
+<form method="post" action="{{url_for('newpost')}}">
+  <label>Title </label>
 	<input type="text" name="title" value="{{title}}">
-	<textarea>{{body}}</textarea>
+
+  <label> Body </label>
+	<textarea name="body">{{body}}</textarea><br>
 	<input type="submit" name="submit" value="Create Post">
+	<p class="error">{{error}}</p>
+	{{msg}}
 </form>
+</div>
 {% endblock %}

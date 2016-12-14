@@ -2,11 +2,16 @@
 
 
 {%block content %}
+<div class="post">
+{% if posts %}
 {% for post in posts %}
-{{post.title}}
-{{post.created_at}}
-{{post.body}}
-{ % endfor % }
+<p class="post-title"><a href="/posts/{{post.id}}">{{post.title}}</a></p>
+<div class="post-body">{{post.body}}</div>
+{% endfor %}
+{% else %}
+<p>No post here at all.</p>
+{% endif %}
+</div>
  {% endblock %}
 
 
