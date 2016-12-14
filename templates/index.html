@@ -6,7 +6,7 @@
 {% if posts %}
 {% for post in posts %}
 <p class="post-title"><a href="/posts/{{post.id}}">{{post.title}}</a></p>
-<div class="post-body">{{post.body}}</div>
+<div class="post-body">{{post.body[:400]}}</div>
 {% endfor %}
 {% else %}
 <p>No post here at all.</p>
