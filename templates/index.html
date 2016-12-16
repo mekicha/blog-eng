@@ -3,14 +3,13 @@
 
 {%block content %}
 <div class="post">
-{% if posts %}
-{% for post in posts %}
+{% for post in posts.items %}
 <p class="post-title"><a href="/posts/{{post.id}}">{{post.title}}</a></p>
-<div class="post-body">{{post.body[:400]}}</div>
+<div class="post-body">{{post.body[:400]|safe}}</div>
 {% endfor %}
-{% else %}
-<p>No post here at all.</p>
-{% endif %}
+{% if posts.has_prev %}<a href="{{url_for('index',page=posts.prev_num) }}">&lt;&lt; Newer Posts</a>{% else %}&lt;&lt; Newer posts {% endif %} |
+{% if posts.has_next %}<a href="{{url_for('index',page=posts.next_num)}}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
+
 </div>
  {% endblock %}
 

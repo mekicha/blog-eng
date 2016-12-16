@@ -3,6 +3,8 @@ from flask import Flask, request, redirect
 from flask import url_for, render_template
 from flask_sqlalchemy import SQLAlchemy 
 
+POSTS_PER_PAGE = 5
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONs'] = True
@@ -26,11 +28,14 @@ class Post(db.Model):
 		return '<title, body {} {}>'.format(self.title, self.body)
 
 @app.route('/')
-def index():
+@app.route('/index')
+@app.route('/index/<int:page>')
+def index(page=1):
 	"""
 	Query the database and render all the posts on the page
 	"""
-	posts = Post.query.order_by(Post.pub_date.desc()).all()
+	#posts = Post.query.order_by(Post.pub_date.desc()).all()
+	posts = Post.query.order_by(Post.pub_date.desc()).paginate(page, POSTS_PER_PAGE)
 	return render_template('index.html', posts=posts)
 
 @app.route('/newpost', methods=['GET','POST'])
@@ -45,9 +50,10 @@ def newpost():
 	if request.method == 'POST':
 		title = request.form['title']
 		body = request.form['body']
+		body = body.replace('\n', '<br>')
 		if not title or not body:
 			error = 'Please fill in title and post body'
-			return render_template('new.html', error=error)
+			return render_template('new.html', error=error, title=title, body=body)
 		else:
 			new_post = Post(title, body)
 			db.session.add(new_post)
